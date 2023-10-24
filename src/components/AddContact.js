@@ -1,11 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 class AddContact extends React.Component {
   state = {
     name: "",
     email: "",
   };
-
   add = (e) => {
     e.preventDefault();
     if (this.state.email === "" || this.state.name === "") {
@@ -14,6 +14,8 @@ class AddContact extends React.Component {
     }
     this.props.addcontact(this.state);
     this.setState({ name: "", email: "" });
+    console.log(this.props);
+    window.location = "/";
   };
   render() {
     return (
