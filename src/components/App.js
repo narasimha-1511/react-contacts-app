@@ -5,6 +5,7 @@ import "./App.css";
 import Header from "./Header";
 import AddContact from "./AddContact";
 import ContactList from "./ContactList";
+import EditContact from "./EditContact";
 
 function App() {
   const LOCAL_STORAGE_KEY = "contacts";
@@ -22,6 +23,17 @@ function App() {
 
     setContacts(newContactList);
   };
+
+  function updateContactHandler(id, name, email) {
+    const newContact = contacts.map((contact) => {
+      if (contact.id == id) {
+        return {...contact, name: name, email: email }
+      }
+      return contact
+    })
+
+    setContacts(newContact)
+  }
 
   useEffect(() => {
     const retrieveContacts = JSON.parse(
@@ -54,6 +66,16 @@ function App() {
           <Route
             path="/add"
             element={<AddContact addcontact={AddContactHandler} />}
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <EditContact
+                contacts={contacts}
+                update={updateContactHandler}
+                key={LOCAL_STORAGE_KEY}
+              />
+            }
           />
         </Routes>
         {/* <AddContact addcontact={AddContactHandler} />
