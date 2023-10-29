@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { isEmptyBlank, ValidateEmail} from './AddContact.js'
 
 function EditContact(props) {
   const [contact, setContact] = useState({
@@ -16,6 +17,15 @@ function EditContact(props) {
 
   function update(e) {
     e.preventDefault()
+
+    if (isEmptyBlank(contact.email) || isEmptyBlank(contact.name)) {
+      alert("All the fields are mandatory");
+      return;
+    }
+    else if(!(ValidateEmail(contact.email))){
+      alert("You have entered an invalid email address!");
+      return;
+    }
 
     props.update(params.id, contact.name, contact.email)
 

@@ -2,6 +2,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+export function isEmptyBlank(str) {
+  // console.log("String Null : "+str === null);
+  return str === null || str.match(/^ *$/) !== null;
+}
+
+export function ValidateEmail(email) {
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (email.match(mailformat)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 function AddContact(props) {
   const [state, setState] = useState({
     name: "",
@@ -12,8 +27,13 @@ function AddContact(props) {
 
   const add = (e) => {
     e.preventDefault();
-    if (state.email === "" || state.name === "") {
+    // console.log("Correct Format email : "+ ValidateEmail(state.email));
+    if (isEmptyBlank(state.email) || isEmptyBlank(state.name)) {
       alert("All the fields are mandatory");
+      return;
+    }
+    else if(!(ValidateEmail(state.email))){
+      alert("You have entered an invalid email address!");
       return;
     }
     props.addcontact(state);
